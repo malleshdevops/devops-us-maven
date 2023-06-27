@@ -1,22 +1,14 @@
-// comment in pipeline
-pipeline {
-    agent any
-
-    stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello World'
-            }
-        }
-        stage('devops') {
-            steps {
-                echo 'Hello World'
-            }
-        }
-        stage('test') {
-            steps {
-                echo 'Hello World'
-            }
-        }
+pipeline{
+  agent any;
+  tools {
+        maven 'maven16' 
     }
+  stages{
+	stage('build'){
+	  steps{
+	   sh 'mvn clean package'
+	  }
+    }
+	}
 }
+
