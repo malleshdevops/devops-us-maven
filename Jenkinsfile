@@ -1,8 +1,9 @@
 pipeline{
   agent any;
   options { 
-    buildDiscarder(logRotator(numToKeepStr: '10'))
     timestamps()
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+    
    }
   tools {
         maven 'maven16' 
