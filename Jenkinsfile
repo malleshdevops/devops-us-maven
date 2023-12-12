@@ -1,7 +1,7 @@
 pipeline{
   agent any;
   options { 
-    //timestamps()
+    timestamps()
     buildDiscarder(logRotator(numToKeepStr: '10'))
     
    }
