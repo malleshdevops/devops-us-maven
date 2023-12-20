@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+   
+    tools {
+        maven 'maven3' 
+    }
+    triggers{
+        cron('* * * * *')
+    }
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+       stage("github download"){
+           steps{
+               checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-ssh-auth-cred', url: 'git@github.com:malleshdevops/devops-us-maven.git']])
+           }
+       }
+       stage("maven build"){
+           steps{
+               sh 'mvn clean package'
+           }
+       }
+       
+    }
+    post {
+        always{
+             emailext body: '''hello 
+
+jenkins job status''', subject: 'testing jenkins pipeline', to: 'malleshdevops2021@outlook.com'
+        }
+    }
+}
