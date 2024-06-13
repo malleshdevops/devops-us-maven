@@ -1,19 +1,21 @@
-pipeline{
-  agent any;
-  options { 
-    timestamps()
-    buildDiscarder(logRotator(numToKeepStr: '10'))
-    
-   }
-  tools {
-        maven 'maven16' 
+pipeline {
+    agent any
+
+    stages {
+        stage('git clone ') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-ssh-key', url: 'git@github.com:malleshdevops/devops-us-maven.git']])
+            }
+        }
+        stage('maven build ') {
+            steps {
+               sh 'mvn clean package'
+            }
+        }
+        stage('archite artifact ') {
+            steps {
+                archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+            }
+        }
     }
-  stages{
-	stage('build'){
-      
-	  steps{
-	   sh 'mvn clean package'
-	  }
-    }
-	}
 }
