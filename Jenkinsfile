@@ -19,7 +19,7 @@ pipeline {
         }
     }
     post{
-        always{
+        failure{
             emailext body: '''Hi,
 
 The jenkins has been failed . please check it.
