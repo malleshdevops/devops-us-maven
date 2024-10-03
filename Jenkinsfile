@@ -1,6 +1,5 @@
 pipeline {
     agent any
-  ## testing
     stages {
         stage('git clone ') {
             steps {
