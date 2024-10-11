@@ -22,21 +22,7 @@ pipeline {
         }
         stage('upload nexus'){
             steps{
-             nexusArtifactUploader(
-        nexusVersion: 'nexus3',
-        protocol: 'http',
-        nexusUrl: '34.145.32.132:8081',
-        groupId: 'com.mycompany.app',
-        version: 1.0,
-        repository: 'pipeline-maven-repo',
-        credentialsId: 'jenkins-nexus-id',
-        artifacts: [
-            [artifactId: my-app,
-             classifier: '',
-             file: 'my-app-' + 1.0 + '.jar',
-             type: 'jar']
-        ]
-     )
+             nexusArtifactUploader artifacts: [[artifactId: 'my-app', classifier: '', file: 'target/my-app-1.0.jar', type: 'jar']], credentialsId: 'jenkins-nexus-id', groupId: 'com.mycompany.app', nexusUrl: '34.145.32.132:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'pipeline-maven-repo', version: '1.0'
             }
         }
         stage('archive artifact'){
