@@ -9,19 +9,7 @@ pipeline {
                 buildDiscarder(logRotator(numToKeepStr: '2'))
             }
 
-    stages {
-        stage('cleaning workspace'){
-            steps{
-                cleanWs()
-            }
-        }
-    /*
-        stage('clone') {
-            steps {
-               checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'jenkins-ssh-key', url: 'git@github.com:malleshdevops/devops-us-maven.git']]) 
-            }
-        }
-  */
+    stages {    
         stage('maven build'){
             steps{
                 sh 'mvn clean package'
