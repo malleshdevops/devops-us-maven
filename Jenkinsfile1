@@ -36,7 +36,7 @@ pipeline {
      }
     stage("push to ecr")
       steps{
-        docker push 144486164212.dkr.ecr.us-west-2.amazonaws.com/talent/spring:v1
+        sh 'docker push 144486164212.dkr.ecr.us-west-2.amazonaws.com/talent/spring:v1'
      }
     }
     post {
