@@ -23,7 +23,21 @@ pipeline {
                sh 'mvn clean package'
            }
        }
-       
+      stage("aws ecr auth"){
+
+       steps{
+          sh 'aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 144486164212.dkr.ecr.us-west-2.amazonaws.com'
+      }       
+    }
+     stage("build docker image")
+        steps{
+           sh 'docker build -t 144486164212.dkr.ecr.us-west-2.amazonaws.com/talent/spring:v1 .'
+      }
+     }
+    stage("push to ecr")
+      steps{
+        docker push 144486164212.dkr.ecr.us-west-2.amazonaws.com/talent/spring:v1
+     }
     }
     post {
         always{
