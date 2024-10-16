@@ -4,15 +4,9 @@ pipeline {
     tools {
         maven 'maven3' 
     }
-   /* triggers{
-        cron('* * * * *') 
-    }*/
+   
     stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello World'
-            }
-        }
+        
        stage("github download"){
            steps{
                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-ssh-auth-cred', url: 'git@github.com:malleshdevops/devops-us-maven.git']])
@@ -27,23 +21,25 @@ pipeline {
 
        steps{
           sh 'aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 144486164212.dkr.ecr.us-west-2.amazonaws.com'
-      }       
-    }
-     stage("build docker image")
+        }       
+        }
+     stage("build docker image"){
         steps{
            sh 'docker build -t 144486164212.dkr.ecr.us-west-2.amazonaws.com/talent/spring:v1 .'
-      }
-     }
-    stage("push to ecr")
+        }
+        }
+    stage("push to ecr"){
       steps{
         sh 'docker push 144486164212.dkr.ecr.us-west-2.amazonaws.com/talent/spring:v1'
-     }
+        }
+        }
     }
     post {
         always{
              emailext body: '''hello 
 
-jenkins job status''', subject: 'testing jenkins pipeline', to: 'malleshdevops2021@outlook.com'
+    jenkins job status''', subject: 'testing jenkins pipeline', to: 'malleshdevops2021@outlook.com'
         }
     }
 }
+
